@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import Lottie from 'lottie-react'
 import { MechanicalAssembly3D } from './components/MechanicalAssembly3D'
 import { MechanicalDesign } from './pages/MechanicalDesign'
 import { AutomationRobotics } from './pages/AutomationRobotics'
@@ -32,7 +31,6 @@ import {
   Package,
   CaretDown
 } from '@phosphor-icons/react'
-import gearsAnimation from './assets/gears-animation.json'
 
 type View = 'home' | 'mechanical-design' | 'automation-robotics' | 'prototype-development' | 'consultation' | 'contact'
 
@@ -373,7 +371,36 @@ function App() {
             </div>
             
             <div className="w-full h-[500px] flex items-center justify-center">
-              <Lottie animationData={gearsAnimation} loop={true} className="w-full h-full max-w-md" />
+              <motion.div
+                className="relative w-full max-w-md h-full flex items-center justify-center"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8 }}
+              >
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                  className="absolute"
+                >
+                  <Gear className="w-48 h-48 text-primary/30" weight="fill" />
+                </motion.div>
+                <motion.div
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+                  className="absolute"
+                  style={{ transform: 'translateX(80px) translateY(-80px)' }}
+                >
+                  <Gear className="w-32 h-32 text-accent/40" weight="fill" />
+                </motion.div>
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                  className="absolute"
+                  style={{ transform: 'translateX(-90px) translateY(70px)' }}
+                >
+                  <Gear className="w-40 h-40 text-secondary/30" weight="fill" />
+                </motion.div>
+              </motion.div>
             </div>
           </motion.div>
         </div>
