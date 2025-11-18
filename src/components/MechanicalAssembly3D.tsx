@@ -15,7 +15,7 @@ export function MechanicalAssembly3D() {
       0.1,
       1000
     )
-    camera.position.set(0, 3, 8)
+    camera.position.set(0, 0, 6)
     camera.lookAt(0, 0, 0)
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
@@ -184,14 +184,14 @@ export function MechanicalAssembly3D() {
       return { mesh: gear, pitchRadius }
     }
 
-    const module = 0.15
+    const module = 0.25
     const gear1Teeth = 24
     const gear2Teeth = 18
     const gear3Teeth = 14
 
-    const gear1Result = createInvoluteGear(module, gear1Teeth, 0.35, primaryColor)
-    const gear2Result = createInvoluteGear(module, gear2Teeth, 0.30, accentColor)
-    const gear3Result = createInvoluteGear(module, gear3Teeth, 0.25, secondaryColor)
+    const gear1Result = createInvoluteGear(module, gear1Teeth, 0.6, primaryColor)
+    const gear2Result = createInvoluteGear(module, gear2Teeth, 0.5, accentColor)
+    const gear3Result = createInvoluteGear(module, gear3Teeth, 0.4, secondaryColor)
 
     const gear1 = gear1Result.mesh
     const gear2 = gear2Result.mesh
@@ -202,20 +202,20 @@ export function MechanicalAssembly3D() {
     const pitchRadius3 = gear3Result.pitchRadius
 
     gear1.position.set(-(pitchRadius1 + pitchRadius2), 0, 0)
-    gear1.rotation.x = Math.PI / 2.5
+    gear1.rotation.x = Math.PI / 6
 
     gear2.position.set(0, 0, 0)
-    gear2.rotation.x = Math.PI / 2.5
+    gear2.rotation.x = Math.PI / 6
 
     gear3.position.set(pitchRadius2 + pitchRadius3, 0, 0)
-    gear3.rotation.x = Math.PI / 2.5
+    gear3.rotation.x = Math.PI / 6
 
     mainGroup.add(gear1)
     mainGroup.add(gear2)
     mainGroup.add(gear3)
 
-    mainGroup.rotation.y = 0.3
-    mainGroup.rotation.x = -0.15
+    mainGroup.rotation.y = 0
+    mainGroup.rotation.x = 0
 
     scene.add(mainGroup)
 

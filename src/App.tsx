@@ -316,24 +316,24 @@ function App() {
       </nav>
 
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden gradient-mesh">
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="text-center"
           >
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6 tracking-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4 tracking-tight">
               Precision Mechanical Engineering
               <br />
               <span className="text-primary">& Automation Design</span>
             </h1>
-            <p className="text-lg sm:text-xl text-foreground/80 mb-8 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl text-foreground/80 mb-6 max-w-3xl mx-auto leading-relaxed">
               Syltek Engineering delivers high-end mechanical design, automation systems, and biomedical
               instrumentation solutions. We specialize in turning complex engineering challenges into
               functional, manufacturable products.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
               <div className="relative"
                 onMouseEnter={() => setHeroServicesOpen(true)}
                 onMouseLeave={() => setHeroServicesOpen(false)}
@@ -367,7 +367,7 @@ function App() {
               </Button>
             </div>
             
-            <div className="w-full max-w-2xl mx-auto h-64">
+            <div className="w-full max-w-4xl mx-auto h-96">
               <MechanicalAssembly3D />
             </div>
           </motion.div>
