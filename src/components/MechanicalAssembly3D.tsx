@@ -15,27 +15,51 @@ export function MechanicalAssembly3D() {
       0.1,
       1000
     )
-    camera.position.set(0, 0, 8)
+    camera.position.set(0, 3, 8)
+    camera.lookAt(0, 0, 0)
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
     renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    renderer.shadowMap.enabled = true
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap
     containerRef.current.appendChild(renderer.domElement)
 
     const primaryColor = new THREE.Color('rgb(71, 99, 204)')
     const accentColor = new THREE.Color('rgb(87, 199, 232)')
     const secondaryColor = new THREE.Color('rgb(62, 64, 84)')
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4)
     scene.add(ambientLight)
 
-    const directionalLight1 = new THREE.DirectionalLight(0xffffff, 1.0)
-    directionalLight1.position.set(5, 5, 5)
+    const directionalLight1 = new THREE.DirectionalLight(0xffffff, 1.2)
+    directionalLight1.position.set(5, 8, 5)
+    directionalLight1.castShadow = true
+    directionalLight1.shadow.mapSize.width = 2048
+    directionalLight1.shadow.mapSize.height = 2048
+    directionalLight1.shadow.camera.near = 0.5
+    directionalLight1.shadow.camera.far = 50
+    directionalLight1.shadow.camera.left = -10
+    directionalLight1.shadow.camera.right = 10
+    directionalLight1.shadow.camera.top = 10
+    directionalLight1.shadow.camera.bottom = -10
+    directionalLight1.shadow.bias = -0.0001
     scene.add(directionalLight1)
 
-    const directionalLight2 = new THREE.DirectionalLight(accentColor, 0.3)
-    directionalLight2.position.set(-5, -3, 3)
+    const directionalLight2 = new THREE.DirectionalLight(accentColor, 0.6)
+    directionalLight2.position.set(-5, 3, 4)
+    directionalLight2.castShadow = true
+    directionalLight2.shadow.mapSize.width = 1024
+    directionalLight2.shadow.mapSize.height = 1024
     scene.add(directionalLight2)
+
+    const rimLight = new THREE.DirectionalLight(0xffffff, 0.8)
+    rimLight.position.set(-3, -5, -3)
+    scene.add(rimLight)
+
+    const fillLight = new THREE.PointLight(0xffffff, 0.3, 20)
+    fillLight.position.set(0, -4, 3)
+    scene.add(fillLight)
 
     const mainGroup = new THREE.Group()
 
@@ -147,9 +171,10 @@ export function MechanicalAssembly3D() {
 
       const material = new THREE.MeshStandardMaterial({
         color: color,
-        metalness: 0.8,
-        roughness: 0.25,
-        envMapIntensity: 0.5
+        metalness: 0.7,
+        roughness: 0.3,
+        envMapIntensity: 0.5,
+        flatShading: false
       })
 
       const gear = new THREE.Mesh(geometry, material)
@@ -177,17 +202,20 @@ export function MechanicalAssembly3D() {
     const pitchRadius3 = gear3Result.pitchRadius
 
     gear1.position.set(-(pitchRadius1 + pitchRadius2), 0, 0)
-    gear1.rotation.x = Math.PI / 2
+    gear1.rotation.x = Math.PI / 2.5
 
     gear2.position.set(0, 0, 0)
-    gear2.rotation.x = Math.PI / 2
+    gear2.rotation.x = Math.PI / 2.5
 
     gear3.position.set(pitchRadius2 + pitchRadius3, 0, 0)
-    gear3.rotation.x = Math.PI / 2
+    gear3.rotation.x = Math.PI / 2.5
 
     mainGroup.add(gear1)
     mainGroup.add(gear2)
     mainGroup.add(gear3)
+
+    mainGroup.rotation.y = 0.3
+    mainGroup.rotation.x = -0.15
 
     scene.add(mainGroup)
 
