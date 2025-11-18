@@ -114,17 +114,21 @@ export function MechanicalAssembly3D() {
       return gear
     }
 
-    const gear1 = createGear(1.2, 16, 0.3, primaryColor)
+    const gear1Teeth = 16
+    const gear2Teeth = 14
+    const gear3Teeth = 12
+
+    const gear1 = createGear(1.2, gear1Teeth, 0.3, primaryColor)
     gear1.position.set(-1.5, 0, 0)
     gear1.rotation.x = Math.PI / 2
     mainGroup.add(gear1)
 
-    const gear2 = createGear(1.0, 14, 0.25, accentColor)
+    const gear2 = createGear(1.0, gear2Teeth, 0.25, accentColor)
     gear2.position.set(0.5, 0, 0)
     gear2.rotation.x = Math.PI / 2
     mainGroup.add(gear2)
 
-    const gear3 = createGear(0.8, 12, 0.2, secondaryColor)
+    const gear3 = createGear(0.8, gear3Teeth, 0.2, secondaryColor)
     gear3.position.set(2.0, 0, 0)
     gear3.rotation.x = Math.PI / 2
     mainGroup.add(gear3)
@@ -148,13 +152,14 @@ export function MechanicalAssembly3D() {
     window.addEventListener('resize', handleResize)
 
     let animationFrameId: number
+    const baseSpeed = 0.01
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate)
 
-      gear1.rotation.y += 0.005
-      gear2.rotation.y -= 0.007
-      gear3.rotation.y += 0.009
+      gear1.rotation.y += baseSpeed
+      gear2.rotation.y -= baseSpeed * (gear1Teeth / gear2Teeth)
+      gear3.rotation.y += baseSpeed * (gear1Teeth / gear3Teeth) * (gear2Teeth / gear3Teeth)
 
       const targetRotationY = mouseRef.current.x * 0.15
       const targetRotationX = mouseRef.current.y * 0.15
