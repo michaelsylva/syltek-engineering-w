@@ -125,18 +125,15 @@ export function MechanicalAssembly3D() {
     const gear1 = createGear(gear1Radius, gear1Teeth, 0.3, primaryColor)
     const gear1Distance = gear1Radius * 0.92
     gear1.position.set(-gear1Distance - gear2Radius * 0.92, 0, 0)
-    gear1.rotation.x = Math.PI / 2
     mainGroup.add(gear1)
 
     const gear2 = createGear(gear2Radius, gear2Teeth, 0.25, accentColor)
     gear2.position.set(0, 0, 0)
-    gear2.rotation.x = Math.PI / 2
     mainGroup.add(gear2)
 
     const gear3 = createGear(gear3Radius, gear3Teeth, 0.2, secondaryColor)
     const gear3Distance = gear2Radius * 0.92 + gear3Radius * 0.92
     gear3.position.set(gear3Distance, 0, 0)
-    gear3.rotation.x = Math.PI / 2
     mainGroup.add(gear3)
 
     scene.add(mainGroup)
@@ -163,12 +160,12 @@ export function MechanicalAssembly3D() {
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate)
 
-      gear1.rotation.y += baseSpeed
-      gear2.rotation.y -= baseSpeed * (gear1Teeth / gear2Teeth)
-      gear3.rotation.y += baseSpeed * (gear2Teeth / gear3Teeth)
+      gear1.rotation.z += baseSpeed
+      gear2.rotation.z -= baseSpeed * (gear1Teeth / gear2Teeth)
+      gear3.rotation.z += baseSpeed * (gear2Teeth / gear3Teeth)
 
-      const targetRotationY = mouseRef.current.x * 0.15
-      const targetRotationX = mouseRef.current.y * 0.15
+      const targetRotationY = mouseRef.current.x * 0.3
+      const targetRotationX = mouseRef.current.y * 0.3
 
       mainGroup.rotation.y += (targetRotationY - mainGroup.rotation.y) * 0.05
       mainGroup.rotation.x += (targetRotationX - mainGroup.rotation.x) * 0.05
