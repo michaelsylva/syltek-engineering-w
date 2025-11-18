@@ -102,62 +102,17 @@ export function MechanicalAssembly3D() {
       return gear
     }
 
-    const createLinearActuator = () => {
-      const group = new THREE.Group()
-
-      const baseGeometry = new THREE.BoxGeometry(0.3, 0.3, 1.5)
-      const baseMaterial = new THREE.MeshStandardMaterial({
-        color: secondaryColor,
-        metalness: 0.8,
-        roughness: 0.2
-      })
-      const base = new THREE.Mesh(baseGeometry, baseMaterial)
-      group.add(base)
-
-      const shaftGeometry = new THREE.CylinderGeometry(0.08, 0.08, 1.2, 16)
-      const shaftMaterial = new THREE.MeshStandardMaterial({
-        color: primaryColor,
-        metalness: 0.9,
-        roughness: 0.1
-      })
-      const shaft = new THREE.Mesh(shaftGeometry, shaftMaterial)
-      shaft.rotation.z = Math.PI / 2
-      shaft.position.x = 0.4
-      group.add(shaft)
-
-      const sliderGeometry = new THREE.BoxGeometry(0.25, 0.25, 0.25)
-      const sliderMaterial = new THREE.MeshStandardMaterial({
-        color: accentColor,
-        metalness: 0.7,
-        roughness: 0.3
-      })
-      const slider = new THREE.Mesh(sliderGeometry, sliderMaterial)
-      slider.position.x = 0.4
-      slider.userData.isSlider = true
-      group.add(slider)
-
-      return group
-    }
-
-    const gear1 = createGear(1.0, 12, 0.2, primaryColor)
-    gear1.position.set(-1.5, 0, 0)
-    gear1.rotation.x = Math.PI / 2
+    const gear1 = createGear(1.8, 12, 0.3, primaryColor)
+    gear1.position.set(-2.2, 0, 0)
     mainGroup.add(gear1)
 
-    const gear2 = createGear(0.7, 9, 0.15, accentColor)
-    gear2.position.set(0.2, 0, 0)
-    gear2.rotation.x = Math.PI / 2
+    const gear2 = createGear(1.3, 9, 0.25, accentColor)
+    gear2.position.set(0.4, 0, 0)
     mainGroup.add(gear2)
 
-    const gear3 = createGear(0.5, 8, 0.12, secondaryColor)
-    gear3.position.set(1.3, 0, 0)
-    gear3.rotation.x = Math.PI / 2
+    const gear3 = createGear(0.9, 8, 0.2, secondaryColor)
+    gear3.position.set(2.3, 0, 0)
     mainGroup.add(gear3)
-
-    const actuator = createLinearActuator()
-    actuator.position.set(0, -1.2, 0)
-    actuator.rotation.z = 0
-    mainGroup.add(actuator)
 
     scene.add(mainGroup)
 
@@ -178,24 +133,16 @@ export function MechanicalAssembly3D() {
     window.addEventListener('resize', handleResize)
 
     let animationFrameId: number
-    let time = 0
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate)
-      time += 0.01
 
       gear1.rotation.z += 0.005
       gear2.rotation.z -= 0.007
       gear3.rotation.z += 0.009
 
-      actuator.children.forEach((child) => {
-        if (child.userData.isSlider) {
-          child.position.x = 0.4 + Math.sin(time) * 0.3
-        }
-      })
-
-      const targetRotationY = mouseRef.current.x * 0.3
-      const targetRotationX = mouseRef.current.y * 0.3
+      const targetRotationY = mouseRef.current.x * 0.15
+      const targetRotationX = mouseRef.current.y * 0.15
 
       mainGroup.rotation.y += (targetRotationY - mainGroup.rotation.y) * 0.05
       mainGroup.rotation.x += (targetRotationX - mainGroup.rotation.x) * 0.05
