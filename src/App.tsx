@@ -38,7 +38,8 @@ function App() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [currentView, setCurrentView] = useState<View>('home')
-  const [servicesOpen, setServicesOpen] = useState(false)
+  const [navServicesOpen, setNavServicesOpen] = useState(false)
+  const [heroServicesOpen, setHeroServicesOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,7 +52,8 @@ function App() {
   const scrollToSection = (id: string) => {
     setCurrentView('home')
     setMobileMenuOpen(false)
-    setServicesOpen(false)
+    setNavServicesOpen(false)
+    setHeroServicesOpen(false)
     setTimeout(() => {
       const element = document.getElementById(id)
       if (element) {
@@ -63,7 +65,8 @@ function App() {
   const navigateToView = (view: View) => {
     setCurrentView(view)
     setMobileMenuOpen(false)
-    setServicesOpen(false)
+    setNavServicesOpen(false)
+    setHeroServicesOpen(false)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
@@ -226,15 +229,15 @@ function App() {
 
             <div className="hidden md:flex items-center gap-6">
               <div className="relative"
-                onMouseEnter={() => setServicesOpen(true)}
-                onMouseLeave={() => setServicesOpen(false)}
+                onMouseEnter={() => setNavServicesOpen(true)}
+                onMouseLeave={() => setNavServicesOpen(false)}
               >
                 <button
                   className="flex items-center gap-1 text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
                 >
-                  Services <CaretDown className={`w-4 h-4 transition-transform ${servicesOpen ? 'rotate-180' : ''}`} />
+                  Services <CaretDown className={`w-4 h-4 transition-transform ${navServicesOpen ? 'rotate-180' : ''}`} />
                 </button>
-                {servicesOpen && (
+                {navServicesOpen && (
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -334,13 +337,13 @@ function App() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <div className="relative"
-                onMouseEnter={() => setServicesOpen(true)}
-                onMouseLeave={() => setServicesOpen(false)}
+                onMouseEnter={() => setHeroServicesOpen(true)}
+                onMouseLeave={() => setHeroServicesOpen(false)}
               >
                 <Button size="lg" className="gap-2">
-                  Explore Services <CaretDown className={`w-5 h-5 transition-transform ${servicesOpen ? 'rotate-180' : ''}`} />
+                  Explore Services <CaretDown className={`w-5 h-5 transition-transform ${heroServicesOpen ? 'rotate-180' : ''}`} />
                 </Button>
-                {servicesOpen && (
+                {heroServicesOpen && (
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
