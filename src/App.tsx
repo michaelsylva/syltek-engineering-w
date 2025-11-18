@@ -241,7 +241,9 @@ function App() {
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="absolute top-full left-0 mt-2 w-64 bg-background border border-border rounded-lg shadow-lg overflow-hidden"
+                    onMouseEnter={() => setNavServicesOpen(true)}
+                    onMouseLeave={() => setNavServicesOpen(false)}
+                    className="absolute top-full left-0 mt-2 w-64 bg-background border border-border rounded-lg shadow-lg overflow-hidden z-50"
                   >
                     {servicePages.map((service) => (
                       <button
@@ -314,10 +316,6 @@ function App() {
       </nav>
 
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden gradient-mesh">
-        <div className="absolute inset-0 z-0 opacity-40">
-          <MechanicalAssembly3D />
-        </div>
-        
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -335,7 +333,7 @@ function App() {
               instrumentation solutions. We specialize in turning complex engineering challenges into
               functional, manufacturable products.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
               <div className="relative"
                 onMouseEnter={() => setHeroServicesOpen(true)}
                 onMouseLeave={() => setHeroServicesOpen(false)}
@@ -347,7 +345,9 @@ function App() {
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-background border border-border rounded-lg shadow-lg overflow-hidden"
+                    onMouseEnter={() => setHeroServicesOpen(true)}
+                    onMouseLeave={() => setHeroServicesOpen(false)}
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-background border border-border rounded-lg shadow-lg overflow-hidden z-50"
                   >
                     {servicePages.map((service) => (
                       <button
@@ -365,6 +365,10 @@ function App() {
               <Button size="lg" variant="outline" onClick={() => scrollToSection('contact')}>
                 Contact Us
               </Button>
+            </div>
+            
+            <div className="w-full max-w-2xl mx-auto h-64">
+              <MechanicalAssembly3D />
             </div>
           </motion.div>
         </div>
