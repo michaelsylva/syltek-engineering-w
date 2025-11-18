@@ -228,11 +228,9 @@ function App() {
             </button>
 
             <div className="hidden md:flex items-center gap-6">
-              <div className="relative"
-                onMouseEnter={() => setNavServicesOpen(true)}
-                onMouseLeave={() => setNavServicesOpen(false)}
-              >
+              <div className="relative">
                 <button
+                  onMouseEnter={() => setNavServicesOpen(true)}
                   className="flex items-center gap-1 text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
                 >
                   Services <CaretDown className={`w-4 h-4 transition-transform ${navServicesOpen ? 'rotate-180' : ''}`} />
@@ -335,11 +333,12 @@ function App() {
                 functional, manufacturable products.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <div className="relative"
-                  onMouseEnter={() => setHeroServicesOpen(true)}
-                  onMouseLeave={() => setHeroServicesOpen(false)}
-                >
-                  <Button size="lg" className="gap-2">
+                <div className="relative">
+                  <Button 
+                    size="lg" 
+                    className="gap-2"
+                    onMouseEnter={() => setHeroServicesOpen(true)}
+                  >
                     Explore Services <CaretDown className={`w-5 h-5 transition-transform ${heroServicesOpen ? 'rotate-180' : ''}`} />
                   </Button>
                   {heroServicesOpen && (

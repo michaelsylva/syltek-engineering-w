@@ -172,11 +172,11 @@ export function MechanicalAssembly3D() {
     const pitchRadius2 = gear2Result.pitchRadius
     const pitchRadius3 = gear3Result.pitchRadius
 
-    gear1.position.set(-(pitchRadius1 + pitchRadius2), 0, 0.3)
+    gear1.position.set(-(pitchRadius1 + pitchRadius2), 0, 0)
 
     gear2.position.set(0, 0, 0)
 
-    gear3.position.set(pitchRadius2 + pitchRadius3, 0, 0.3)
+    gear3.position.set(pitchRadius2 + pitchRadius3, 0, 0)
 
     mainGroup.add(gear1)
     mainGroup.add(gear2)
