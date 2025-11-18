@@ -10,12 +10,12 @@ export function MechanicalAssembly3D() {
 
     const scene = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(
-      45,
+      35,
       containerRef.current.clientWidth / containerRef.current.clientHeight,
       0.1,
       1000
     )
-    camera.position.set(0, 2, 8)
+    camera.position.set(0, 1, 12)
     camera.lookAt(0, 0, 0)
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
@@ -75,80 +75,51 @@ export function MechanicalAssembly3D() {
       const baseRadius = pitchRadius * Math.cos(pressureAngleRad)
       const outerRadius = pitchRadius + module
       const rootRadius = pitchRadius - 1.25 * module
-      const innerRadius = pitchRadius * 0.4
-
-      const involutePoint = (baseRad: number, angle: number) => {
-        const x = baseRad * (Math.cos(angle) + angle * Math.sin(angle))
-        const y = baseRad * (Math.sin(angle) - angle * Math.cos(angle))
-        return new THREE.Vector2(x, y)
-      }
+      const innerRadius = pitchRadius * 0.35
 
       const shape = new THREE.Shape()
       const angleStep = (2 * Math.PI) / teeth
 
       for (let i = 0; i < teeth; i++) {
         const toothAngle = i * angleStep
-        const halfToothAngle = Math.PI / teeth
+        const halfToothWidth = (Math.PI / teeth) * 0.45
+        const filletRadius = module * 0.3
 
-        const points: THREE.Vector2[] = []
-
-        const startAngle = toothAngle - halfToothAngle * 0.7
-        const endAngle = toothAngle + halfToothAngle * 0.7
-
-        for (let t = 0; t <= 1; t += 0.1) {
-          const angle = startAngle + (endAngle - startAngle) * t
-          const invAngle = Math.sqrt(Math.max(0, (pitchRadius / baseRadius) ** 2 - 1))
-          const point = involutePoint(baseRadius, invAngle * t)
-          const rotatedPoint = new THREE.Vector2(
-            point.x * Math.cos(angle) - point.y * Math.sin(angle),
-            point.x * Math.sin(angle) + point.y * Math.cos(angle)
-          )
-          points.push(rotatedPoint)
-        }
-
-        const tipStart = new THREE.Vector2(
-          Math.cos(endAngle) * outerRadius,
-          Math.sin(endAngle) * outerRadius
-        )
-        const tipEnd = new THREE.Vector2(
-          Math.cos(toothAngle + halfToothAngle) * outerRadius,
-          Math.sin(toothAngle + halfToothAngle) * outerRadius
-        )
+        const rootAngle1 = toothAngle - halfToothWidth
+        const rootAngle2 = toothAngle + halfToothWidth
+        const tipAngle1 = toothAngle - halfToothWidth * 0.85
+        const tipAngle2 = toothAngle + halfToothWidth * 0.85
 
         if (i === 0) {
           shape.moveTo(
-            Math.cos(startAngle) * rootRadius,
-            Math.sin(startAngle) * rootRadius
+            Math.cos(rootAngle1) * rootRadius,
+            Math.sin(rootAngle1) * rootRadius
           )
         } else {
           shape.lineTo(
-            Math.cos(startAngle) * rootRadius,
-            Math.sin(startAngle) * rootRadius
+            Math.cos(rootAngle1) * rootRadius,
+            Math.sin(rootAngle1) * rootRadius
           )
         }
 
-        for (const point of points) {
-          shape.lineTo(point.x, point.y)
-        }
+        const transitionRadius = (rootRadius + pitchRadius) / 2
+        shape.quadraticCurveTo(
+          Math.cos(tipAngle1 - 0.05) * transitionRadius,
+          Math.sin(tipAngle1 - 0.05) * transitionRadius,
+          Math.cos(tipAngle1) * outerRadius,
+          Math.sin(tipAngle1) * outerRadius
+        )
 
-        shape.lineTo(tipStart.x, tipStart.y)
-        shape.lineTo(tipEnd.x, tipEnd.y)
-
-        for (let t = 1; t >= 0; t -= 0.1) {
-          const angle = toothAngle + halfToothAngle + (toothAngle + angleStep - halfToothAngle - (toothAngle + halfToothAngle)) * (1 - t)
-          const invAngle = Math.sqrt(Math.max(0, (pitchRadius / baseRadius) ** 2 - 1))
-          const point = involutePoint(baseRadius, invAngle * t)
-          const rotatedPoint = new THREE.Vector2(
-            point.x * Math.cos(angle) - point.y * Math.sin(angle),
-            point.x * Math.sin(angle) + point.y * Math.cos(angle)
-          )
-          shape.lineTo(rotatedPoint.x, rotatedPoint.y)
-        }
-
-        const nextStartAngle = toothAngle + angleStep - halfToothAngle * 0.7
         shape.lineTo(
-          Math.cos(nextStartAngle) * rootRadius,
-          Math.sin(nextStartAngle) * rootRadius
+          Math.cos(tipAngle2) * outerRadius,
+          Math.sin(tipAngle2) * outerRadius
+        )
+
+        shape.quadraticCurveTo(
+          Math.cos(tipAngle2 + 0.05) * transitionRadius,
+          Math.sin(tipAngle2 + 0.05) * transitionRadius,
+          Math.cos(rootAngle2) * rootRadius,
+          Math.sin(rootAngle2) * rootRadius
         )
       }
 
@@ -161,8 +132,8 @@ export function MechanicalAssembly3D() {
       const extrudeSettings = {
         depth: thickness,
         bevelEnabled: true,
-        bevelThickness: 0.03,
-        bevelSize: 0.03,
+        bevelThickness: 0.02,
+        bevelSize: 0.02,
         bevelSegments: 2
       }
 
@@ -184,10 +155,10 @@ export function MechanicalAssembly3D() {
       return { mesh: gear, pitchRadius }
     }
 
-    const module = 0.25
-    const gear1Teeth = 24
-    const gear2Teeth = 18
-    const gear3Teeth = 14
+    const module = 0.2
+    const gear1Teeth = 20
+    const gear2Teeth = 16
+    const gear3Teeth = 12
 
     const gear1Result = createInvoluteGear(module, gear1Teeth, 0.6, primaryColor)
     const gear2Result = createInvoluteGear(module, gear2Teeth, 0.5, accentColor)
