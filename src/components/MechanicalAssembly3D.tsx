@@ -10,12 +10,12 @@ export function MechanicalAssembly3D() {
 
     const scene = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(
-      50,
+      45,
       containerRef.current.clientWidth / containerRef.current.clientHeight,
       0.1,
       1000
     )
-    camera.position.set(0, 0, 6)
+    camera.position.set(0, 2, 8)
     camera.lookAt(0, 0, 0)
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
@@ -202,13 +202,10 @@ export function MechanicalAssembly3D() {
     const pitchRadius3 = gear3Result.pitchRadius
 
     gear1.position.set(-(pitchRadius1 + pitchRadius2), 0, 0)
-    gear1.rotation.x = Math.PI / 6
 
     gear2.position.set(0, 0, 0)
-    gear2.rotation.x = Math.PI / 6
 
     gear3.position.set(pitchRadius2 + pitchRadius3, 0, 0)
-    gear3.rotation.x = Math.PI / 6
 
     mainGroup.add(gear1)
     mainGroup.add(gear2)
@@ -279,7 +276,6 @@ export function MechanicalAssembly3D() {
     <div
       ref={containerRef}
       className="w-full h-full"
-      style={{ minHeight: '400px' }}
     />
   )
 }
