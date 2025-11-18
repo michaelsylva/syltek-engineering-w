@@ -41,37 +41,47 @@ export function MechanicalAssembly3D() {
 
     const createGear = (radius: number, teeth: number, depth: number, color: THREE.Color) => {
       const shape = new THREE.Shape()
-      const innerRadius = radius * 0.6
-      const toothHeight = radius * 0.2
-      const toothWidth = (Math.PI * 2 * radius) / teeth / 2
+      const innerRadius = radius * 0.65
+      const toothDepth = radius * 0.15
+      const toothWidth = 0.4
+      
+      const outerRadius = radius
+      const pitchRadius = radius - toothDepth / 2
+      const rootRadius = radius - toothDepth
 
       for (let i = 0; i < teeth; i++) {
         const angle = (i / teeth) * Math.PI * 2
-        const nextAngle = ((i + 1) / teeth) * Math.PI * 2
+        const angleStep = Math.PI * 2 / teeth
+        
+        const toothStartAngle = angle - toothWidth / pitchRadius
+        const toothEndAngle = angle + toothWidth / pitchRadius
+        const nextToothStartAngle = angle + angleStep - toothWidth / pitchRadius
 
         if (i === 0) {
           shape.moveTo(
-            Math.cos(angle) * (radius + toothHeight),
-            Math.sin(angle) * (radius + toothHeight)
+            Math.cos(toothStartAngle) * outerRadius,
+            Math.sin(toothStartAngle) * outerRadius
+          )
+        } else {
+          shape.lineTo(
+            Math.cos(toothStartAngle) * outerRadius,
+            Math.sin(toothStartAngle) * outerRadius
           )
         }
 
-        const midAngle = (angle + nextAngle) / 2
         shape.lineTo(
-          Math.cos(angle) * (radius + toothHeight),
-          Math.sin(angle) * (radius + toothHeight)
+          Math.cos(toothEndAngle) * outerRadius,
+          Math.sin(toothEndAngle) * outerRadius
         )
+        
         shape.lineTo(
-          Math.cos(midAngle - toothWidth / radius) * radius,
-          Math.sin(midAngle - toothWidth / radius) * radius
+          Math.cos(toothEndAngle) * rootRadius,
+          Math.sin(toothEndAngle) * rootRadius
         )
+        
         shape.lineTo(
-          Math.cos(midAngle + toothWidth / radius) * radius,
-          Math.sin(midAngle + toothWidth / radius) * radius
-        )
-        shape.lineTo(
-          Math.cos(nextAngle) * (radius + toothHeight),
-          Math.sin(nextAngle) * (radius + toothHeight)
+          Math.cos(nextToothStartAngle) * rootRadius,
+          Math.sin(nextToothStartAngle) * rootRadius
         )
       }
 
@@ -84,12 +94,14 @@ export function MechanicalAssembly3D() {
       const extrudeSettings = {
         depth: depth,
         bevelEnabled: true,
-        bevelThickness: 0.05,
-        bevelSize: 0.05,
-        bevelSegments: 2
+        bevelThickness: 0.02,
+        bevelSize: 0.02,
+        bevelSegments: 1
       }
 
       const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings)
+      geometry.center()
+      
       const material = new THREE.MeshStandardMaterial({
         color: color,
         metalness: 0.7,
@@ -102,16 +114,19 @@ export function MechanicalAssembly3D() {
       return gear
     }
 
-    const gear1 = createGear(1.8, 12, 0.3, primaryColor)
-    gear1.position.set(-2.2, 0, 0)
+    const gear1 = createGear(1.2, 16, 0.3, primaryColor)
+    gear1.position.set(-1.5, 0, 0)
+    gear1.rotation.x = Math.PI / 2
     mainGroup.add(gear1)
 
-    const gear2 = createGear(1.3, 9, 0.25, accentColor)
-    gear2.position.set(0.4, 0, 0)
+    const gear2 = createGear(1.0, 14, 0.25, accentColor)
+    gear2.position.set(0.5, 0, 0)
+    gear2.rotation.x = Math.PI / 2
     mainGroup.add(gear2)
 
-    const gear3 = createGear(0.9, 8, 0.2, secondaryColor)
-    gear3.position.set(2.3, 0, 0)
+    const gear3 = createGear(0.8, 12, 0.2, secondaryColor)
+    gear3.position.set(2.0, 0, 0)
+    gear3.rotation.x = Math.PI / 2
     mainGroup.add(gear3)
 
     scene.add(mainGroup)
@@ -137,9 +152,9 @@ export function MechanicalAssembly3D() {
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate)
 
-      gear1.rotation.z += 0.005
-      gear2.rotation.z -= 0.007
-      gear3.rotation.z += 0.009
+      gear1.rotation.y += 0.005
+      gear2.rotation.y -= 0.007
+      gear3.rotation.y += 0.009
 
       const targetRotationY = mouseRef.current.x * 0.15
       const targetRotationX = mouseRef.current.y * 0.15
