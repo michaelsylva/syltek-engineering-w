@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import Lottie from 'lottie-react'
 import { MechanicalAssembly3D } from './components/MechanicalAssembly3D'
 import { MechanicalDesign } from './pages/MechanicalDesign'
 import { AutomationRobotics } from './pages/AutomationRobotics'
@@ -31,6 +32,7 @@ import {
   Package,
   CaretDown
 } from '@phosphor-icons/react'
+import gearsAnimation from './assets/gears-animation.json'
 
 type View = 'home' | 'mechanical-design' | 'automation-robotics' | 'prototype-development' | 'consultation' | 'contact'
 
@@ -228,9 +230,12 @@ function App() {
             </button>
 
             <div className="hidden md:flex items-center gap-6">
-              <div className="relative">
+              <div 
+                className="relative"
+                onMouseEnter={() => setNavServicesOpen(true)}
+                onMouseLeave={() => setNavServicesOpen(false)}
+              >
                 <button
-                  onMouseEnter={() => setNavServicesOpen(true)}
                   className="flex items-center gap-1 text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
                 >
                   Services <CaretDown className={`w-4 h-4 transition-transform ${navServicesOpen ? 'rotate-180' : ''}`} />
@@ -239,8 +244,6 @@ function App() {
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    onMouseEnter={() => setNavServicesOpen(true)}
-                    onMouseLeave={() => setNavServicesOpen(false)}
                     className="absolute top-full left-0 mt-2 w-64 bg-background border border-border rounded-lg shadow-lg overflow-hidden z-50"
                   >
                     {servicePages.map((service) => (
@@ -319,25 +322,28 @@ function App() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="flex flex-col items-center"
+            className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
           >
-            <div className="text-center mb-6">
+            <div className="text-left">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4 tracking-tight">
                 Precision Mechanical Engineering
                 <br />
                 <span className="text-primary">& Automation Design</span>
               </h1>
-              <p className="text-lg sm:text-xl text-foreground/80 mb-6 max-w-3xl mx-auto leading-relaxed">
+              <p className="text-lg sm:text-xl text-foreground/80 mb-6 leading-relaxed">
                 Syltek Engineering delivers high-end mechanical design, automation systems, and biomedical
                 instrumentation solutions. We specialize in turning complex engineering challenges into
                 functional, manufacturable products.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <div className="relative">
+              <div className="flex flex-col sm:flex-row gap-4 items-start">
+                <div 
+                  className="relative"
+                  onMouseEnter={() => setHeroServicesOpen(true)}
+                  onMouseLeave={() => setHeroServicesOpen(false)}
+                >
                   <Button 
                     size="lg" 
                     className="gap-2"
-                    onMouseEnter={() => setHeroServicesOpen(true)}
                   >
                     Explore Services <CaretDown className={`w-5 h-5 transition-transform ${heroServicesOpen ? 'rotate-180' : ''}`} />
                   </Button>
@@ -345,9 +351,7 @@ function App() {
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      onMouseEnter={() => setHeroServicesOpen(true)}
-                      onMouseLeave={() => setHeroServicesOpen(false)}
-                      className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-background border border-border rounded-lg shadow-lg overflow-hidden z-50"
+                      className="absolute top-full left-0 mt-2 w-64 bg-background border border-border rounded-lg shadow-lg overflow-hidden z-50"
                     >
                       {servicePages.map((service) => (
                         <button
@@ -368,8 +372,8 @@ function App() {
               </div>
             </div>
             
-            <div className="w-full h-[500px] max-w-5xl">
-              <MechanicalAssembly3D />
+            <div className="w-full h-[500px] flex items-center justify-center">
+              <Lottie animationData={gearsAnimation} loop={true} className="w-full h-full max-w-md" />
             </div>
           </motion.div>
         </div>
@@ -686,6 +690,18 @@ function App() {
                 </div>
               </CardContent>
             </Card>
+          </motion.div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="w-full h-[500px]"
+          >
+            <MechanicalAssembly3D />
           </motion.div>
         </div>
       </section>
