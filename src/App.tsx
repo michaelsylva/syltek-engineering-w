@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { MechanicalAssembly3D } from './components/MechanicalAssembly3D'
+import { MechanicalDesign } from './pages/MechanicalDesign'
+import { AutomationRobotics } from './pages/AutomationRobotics'
+import { PrototypeDevelopment } from './pages/PrototypeDevelopment'
+import { ConsultationServices } from './pages/ConsultationServices'
 import { Button } from './components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './components/ui/card'
 import { Badge } from './components/ui/badge'
@@ -24,12 +28,17 @@ import {
   CheckCircle,
   GitBranch,
   Cpu,
-  Package
+  Package,
+  CaretDown
 } from '@phosphor-icons/react'
+
+type View = 'home' | 'mechanical-design' | 'automation-robotics' | 'prototype-development' | 'consultation' | 'contact'
 
 function App() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [currentView, setCurrentView] = useState<View>('home')
+  const [servicesOpen, setServicesOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,43 +49,67 @@ function App() {
   }, [])
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-      setMobileMenuOpen(false)
-    }
+    setCurrentView('home')
+    setMobileMenuOpen(false)
+    setServicesOpen(false)
+    setTimeout(() => {
+      const element = document.getElementById(id)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' })
+      }
+    }, 100)
   }
+
+  const navigateToView = (view: View) => {
+    setCurrentView(view)
+    setMobileMenuOpen(false)
+    setServicesOpen(false)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const servicePages = [
+    { id: 'mechanical-design' as View, label: 'Mechanical Design', icon: <Cube className="w-4 h-4" /> },
+    { id: 'automation-robotics' as View, label: 'Automation & Robotics', icon: <Robot className="w-4 h-4" /> },
+    { id: 'prototype-development' as View, label: 'Prototype Development', icon: <Printer className="w-4 h-4" weight="fill" /> },
+    { id: 'consultation' as View, label: 'Consultation', icon: <ChartLine className="w-4 h-4" /> }
+  ]
 
   const services = [
     {
       icon: <Cube className="w-8 h-8" />,
       title: 'Mechanical Engineering & Design',
-      description: 'Precision 3D CAD (SolidWorks), mechanism design, motion systems, NEMA motor linear axes, custom assemblies'
+      description: 'Precision 3D CAD (SolidWorks), mechanism design, motion systems, NEMA motor linear axes, custom assemblies',
+      id: 'mechanical-design' as View
     },
     {
       icon: <Robot className="w-8 h-8" />,
       title: 'Automation & Robotics',
-      description: 'Custom pipetting systems, fluidics, planar motors, sample handling, OEM subsystem development for biomedical and lab instruments'
+      description: 'Custom pipetting systems, fluidics, planar motors, sample handling, OEM subsystem development for biomedical and lab instruments',
+      id: 'automation-robotics' as View
     },
     {
       icon: <Printer className="w-8 h-8" weight="fill" />,
       title: 'Prototype Development & Build',
-      description: 'Rapid prototyping, 3D printing, CNC machining, assembly, testing, and small-batch manufacturing'
+      description: 'Rapid prototyping, 3D printing, CNC machining, assembly, testing, and small-batch manufacturing',
+      id: 'prototype-development' as View
     },
     {
       icon: <ChartLine className="w-8 h-8" />,
       title: 'Consultation & Product Development',
-      description: 'Concept-to-production support, design reviews, technical documentation, cost-down redesigns'
+      description: 'Concept-to-production support, design reviews, technical documentation, cost-down redesigns',
+      id: 'consultation' as View
     },
     {
       icon: <Flask className="w-8 h-8" />,
       title: 'Specialized Lab Devices',
-      description: 'Precision linear actuators, syringe pumps, tip-loading stations, truss plates, motion platforms'
+      description: 'Precision linear actuators, syringe pumps, tip-loading stations, truss plates, motion platforms',
+      id: 'home' as View
     },
     {
       icon: <Gear className="w-8 h-8" />,
       title: 'Custom Mechanisms',
-      description: 'Stepper/servo mechanisms, material handling systems, and specialized automation solutions'
+      description: 'Stepper/servo mechanisms, material handling systems, and specialized automation solutions',
+      id: 'home' as View
     }
   ]
 
@@ -152,11 +185,27 @@ function App() {
   ]
 
   const navItems = [
-    { label: 'Services', id: 'services' },
-    { label: 'Capabilities', id: 'capabilities' },
-    { label: 'Expertise', id: 'expertise' },
-    { label: 'Contact', id: 'contact' }
+    { label: 'Home', id: 'home', action: () => navigateToView('home') },
+    { label: 'Capabilities', id: 'capabilities', action: () => scrollToSection('capabilities') },
+    { label: 'Expertise', id: 'expertise', action: () => scrollToSection('expertise') },
+    { label: 'Contact', id: 'contact', action: () => scrollToSection('contact') }
   ]
+
+  if (currentView === 'mechanical-design') {
+    return <MechanicalDesign onNavigate={navigateToView} />
+  }
+
+  if (currentView === 'automation-robotics') {
+    return <AutomationRobotics onNavigate={navigateToView} />
+  }
+
+  if (currentView === 'prototype-development') {
+    return <PrototypeDevelopment onNavigate={navigateToView} />
+  }
+
+  if (currentView === 'consultation') {
+    return <ConsultationServices onNavigate={navigateToView} />
+  }
 
   return (
     <div className="min-h-screen bg-background scroll-smooth">
@@ -167,16 +216,47 @@ function App() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-2">
+            <button 
+              onClick={() => navigateToView('home')}
+              className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+            >
               <Gear className="w-8 h-8 text-primary" weight="fill" />
               <span className="text-xl font-bold text-foreground">Syltek Engineering</span>
-            </div>
+            </button>
 
-            <div className="hidden md:flex items-center gap-8">
+            <div className="hidden md:flex items-center gap-6">
+              <div className="relative"
+                onMouseEnter={() => setServicesOpen(true)}
+                onMouseLeave={() => setServicesOpen(false)}
+              >
+                <button
+                  className="flex items-center gap-1 text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
+                >
+                  Services <CaretDown className={`w-4 h-4 transition-transform ${servicesOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {servicesOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="absolute top-full left-0 mt-2 w-64 bg-background border border-border rounded-lg shadow-lg overflow-hidden"
+                  >
+                    {servicePages.map((service) => (
+                      <button
+                        key={service.id}
+                        onClick={() => navigateToView(service.id)}
+                        className="w-full flex items-center gap-3 px-4 py-3 text-sm text-foreground/80 hover:bg-accent/10 hover:text-primary transition-colors"
+                      >
+                        <div className="text-accent">{service.icon}</div>
+                        {service.label}
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </div>
               {navItems.map((item) => (
                 <button
                   key={item.id}
-                  onClick={() => scrollToSection(item.id)}
+                  onClick={item.action}
                   className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
                 >
                   {item.label}
@@ -195,10 +275,26 @@ function App() {
               </SheetTrigger>
               <SheetContent>
                 <div className="flex flex-col gap-6 mt-8">
+                  <div>
+                    <p className="text-xs font-semibold text-muted-foreground mb-3 uppercase tracking-wide">Services</p>
+                    <div className="flex flex-col gap-2">
+                      {servicePages.map((service) => (
+                        <button
+                          key={service.id}
+                          onClick={() => navigateToView(service.id)}
+                          className="flex items-center gap-3 text-left text-foreground hover:text-primary transition-colors py-2"
+                        >
+                          <div className="text-accent">{service.icon}</div>
+                          <span className="font-medium">{service.label}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <Separator />
                   {navItems.map((item) => (
                     <button
                       key={item.id}
-                      onClick={() => scrollToSection(item.id)}
+                      onClick={item.action}
                       className="text-lg font-medium text-foreground hover:text-primary transition-colors text-left"
                     >
                       {item.label}
@@ -215,7 +311,7 @@ function App() {
       </nav>
 
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden gradient-mesh">
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 opacity-40">
           <MechanicalAssembly3D />
         </div>
         
@@ -237,9 +333,32 @@ function App() {
               functional, manufacturable products.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button size="lg" onClick={() => scrollToSection('services')} className="gap-2">
-                Explore Services <ArrowRight className="w-5 h-5" />
-              </Button>
+              <div className="relative"
+                onMouseEnter={() => setServicesOpen(true)}
+                onMouseLeave={() => setServicesOpen(false)}
+              >
+                <Button size="lg" className="gap-2">
+                  Explore Services <CaretDown className={`w-5 h-5 transition-transform ${servicesOpen ? 'rotate-180' : ''}`} />
+                </Button>
+                {servicesOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-background border border-border rounded-lg shadow-lg overflow-hidden"
+                  >
+                    {servicePages.map((service) => (
+                      <button
+                        key={service.id}
+                        onClick={() => navigateToView(service.id)}
+                        className="w-full flex items-center gap-3 px-4 py-3 text-sm text-foreground/80 hover:bg-accent/10 hover:text-primary transition-colors"
+                      >
+                        <div className="text-accent">{service.icon}</div>
+                        {service.label}
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </div>
               <Button size="lg" variant="outline" onClick={() => scrollToSection('contact')}>
                 Contact Us
               </Button>
@@ -272,12 +391,20 @@ function App() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                <Card className="h-full hover:shadow-lg hover:border-accent/50 transition-all duration-300 group">
+                <Card 
+                  className="h-full hover:shadow-lg hover:border-accent/50 transition-all duration-300 group cursor-pointer"
+                  onClick={() => service.id !== 'home' && navigateToView(service.id)}
+                >
                   <CardHeader>
                     <div className="text-accent mb-4 group-hover:scale-110 transition-transform">
                       {service.icon}
                     </div>
-                    <CardTitle className="text-xl">{service.title}</CardTitle>
+                    <CardTitle className="text-xl flex items-center justify-between">
+                      {service.title}
+                      {service.id !== 'home' && (
+                        <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all" />
+                      )}
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <CardDescription className="text-base leading-relaxed">
