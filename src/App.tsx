@@ -266,10 +266,10 @@ function App() {
           <div className="flex items-center justify-between h-16">
             <button 
               onClick={() => navigateToView('home')}
-              className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+              className="flex items-center gap-2 hover:opacity-80 transition-all duration-200 group"
             >
-              <Gear className="w-8 h-8 text-primary" weight="fill" />
-              <span className="text-xl font-bold text-foreground">Syltek Engineering</span>
+              <Gear className="w-8 h-8 text-primary group-hover:rotate-45 transition-transform duration-300" weight="fill" />
+              <span className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-200">Syltek Engineering</span>
             </button>
 
             <div className="hidden md:flex items-center gap-6">
@@ -279,9 +279,9 @@ function App() {
                 onMouseLeave={() => setNavServicesOpen(false)}
               >
                 <button
-                  className="flex items-center gap-1 text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
+                  className="flex items-center gap-1 text-sm font-medium text-foreground/80 hover:text-primary transition-colors duration-200"
                 >
-                  Services <CaretDown className={`w-4 h-4 transition-transform ${navServicesOpen ? 'rotate-180' : ''}`} />
+                  Services <CaretDown className={`w-4 h-4 transition-transform duration-200 ${navServicesOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {navServicesOpen && (
                   <motion.div
@@ -294,9 +294,9 @@ function App() {
                         <button
                           key={service.id}
                           onClick={() => navigateToView(service.id)}
-                          className="w-full flex items-center gap-3 px-4 py-3 text-sm text-foreground/80 hover:bg-accent hover:text-accent-foreground transition-colors"
+                          className="w-full flex items-center gap-3 px-4 py-3 text-sm text-foreground/80 hover:bg-primary/10 hover:text-primary transition-all duration-200"
                         >
-                          <div className="hover:scale-110 transition-transform">{service.icon}</div>
+                          <div className="text-accent hover:scale-110 transition-transform duration-200">{service.icon}</div>
                           {service.label}
                         </button>
                       ))}
@@ -308,12 +308,12 @@ function App() {
                 <button
                   key={item.id}
                   onClick={item.action}
-                  className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
+                  className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors duration-200"
                 >
                   {item.label}
                 </button>
               ))}
-              <Button onClick={() => scrollToSection('contact')} size="sm">
+              <Button onClick={() => scrollToSection('contact')} size="sm" className="hover:shadow-lg transition-shadow duration-200">
                 Get in Touch
               </Button>
             </div>
@@ -333,9 +333,9 @@ function App() {
                         <button
                           key={service.id}
                           onClick={() => navigateToView(service.id)}
-                          className="flex items-center gap-3 text-left text-foreground hover:text-primary transition-colors py-2"
+                          className="flex items-center gap-3 text-left text-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200 py-2 px-2 rounded-md"
                         >
-                          <div className="text-accent">{service.icon}</div>
+                          <div className="text-accent hover:scale-110 transition-transform duration-200">{service.icon}</div>
                           <span className="font-medium">{service.label}</span>
                         </button>
                       ))}
@@ -346,12 +346,12 @@ function App() {
                     <button
                       key={item.id}
                       onClick={item.action}
-                      className="text-lg font-medium text-foreground hover:text-primary transition-colors text-left"
+                      className="text-lg font-medium text-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200 text-left py-2 px-2 rounded-md"
                     >
                       {item.label}
                     </button>
                   ))}
-                  <Button onClick={() => scrollToSection('contact')} className="w-full">
+                  <Button onClick={() => scrollToSection('contact')} className="w-full hover:shadow-lg transition-shadow duration-200">
                     Get in Touch
                   </Button>
                 </div>
@@ -382,9 +382,9 @@ function App() {
               >
                 <Button 
                   size="lg" 
-                  className="gap-2"
+                  className="gap-2 hover:shadow-lg transition-shadow duration-200"
                 >
-                  Explore Services <CaretDown className={`w-5 h-5 transition-transform ${heroServicesOpen ? 'rotate-180' : ''}`} />
+                  Explore Services <CaretDown className={`w-5 h-5 transition-transform duration-200 ${heroServicesOpen ? 'rotate-180' : ''}`} />
                 </Button>
                 {heroServicesOpen && (
                   <motion.div
@@ -397,9 +397,9 @@ function App() {
                         <button
                           key={service.id}
                           onClick={() => navigateToView(service.id)}
-                          className="w-full flex items-center gap-3 px-4 py-3 text-sm text-foreground/80 hover:bg-accent hover:text-accent-foreground transition-colors"
+                          className="w-full flex items-center gap-3 px-4 py-3 text-sm text-foreground/80 hover:bg-primary/10 hover:text-primary transition-all duration-200"
                         >
-                          <div className="hover:scale-110 transition-transform">{service.icon}</div>
+                          <div className="text-accent hover:scale-110 transition-transform duration-200">{service.icon}</div>
                           {service.label}
                         </button>
                       ))}
@@ -407,7 +407,7 @@ function App() {
                   </motion.div>
                 )}
               </div>
-              <Button size="lg" variant="outline" onClick={() => scrollToSection('contact')}>
+              <Button size="lg" variant="outline" onClick={() => scrollToSection('contact')} className="hover:bg-primary/10 hover:border-primary/50 hover:text-primary transition-all duration-200">
                 Contact Us
               </Button>
             </div>
@@ -440,17 +440,17 @@ function App() {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
                 <Card 
-                  className="h-full hover:shadow-lg hover:border-accent/50 transition-all duration-300 group cursor-pointer"
+                  className="h-full hover:shadow-xl hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 group cursor-pointer"
                   onClick={() => service.id !== 'home' && navigateToView(service.id)}
                 >
                   <CardHeader>
-                    <div className="text-accent mb-4 group-hover:scale-110 transition-transform">
+                    <div className="text-accent mb-4 group-hover:scale-110 group-hover:text-primary transition-all duration-300">
                       {service.icon}
                     </div>
-                    <CardTitle className="text-xl flex items-center justify-between">
+                    <CardTitle className="text-xl flex items-center justify-between group-hover:text-primary transition-colors duration-300">
                       {service.title}
                       {service.id !== 'home' && (
-                        <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all" />
+                        <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all duration-300" />
                       )}
                     </CardTitle>
                   </CardHeader>
@@ -492,11 +492,11 @@ function App() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: index * 0.05 }}
                 >
-                  <AccordionItem value={`process-${index}`} className="bg-card border rounded-lg px-6">
-                    <AccordionTrigger className="hover:no-underline py-4">
+                  <AccordionItem value={`process-${index}`} className="bg-card border rounded-lg px-6 hover:bg-primary/5 hover:border-primary/30 transition-all duration-200">
+                    <AccordionTrigger className="hover:no-underline py-4 group">
                       <div className="flex items-center gap-4">
-                        <div className="text-accent">{process.icon}</div>
-                        <span className="text-lg font-medium">{process.title}</span>
+                        <div className="text-accent group-hover:text-primary group-hover:scale-110 transition-all duration-200">{process.icon}</div>
+                        <span className="text-lg font-medium group-hover:text-primary transition-colors duration-200">{process.title}</span>
                       </div>
                     </AccordionTrigger>
                     <AccordionContent className="text-muted-foreground pb-4">
@@ -519,10 +519,10 @@ function App() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                 >
-                  <Card>
+                  <Card className="hover:shadow-lg hover:border-primary/30 hover:bg-primary/5 transition-all duration-200 group">
                     <CardHeader>
-                      <CardTitle className="text-lg flex items-center gap-2">
-                        <Cube className="w-5 h-5 text-primary" />
+                      <CardTitle className="text-lg flex items-center gap-2 group-hover:text-primary transition-colors duration-200">
+                        <Cube className="w-5 h-5 text-primary group-hover:scale-110 transition-transform duration-200" />
                         {service.title}
                       </CardTitle>
                     </CardHeader>
@@ -553,7 +553,7 @@ function App() {
                   <TabsContent value="programming" className="mt-6">
                     <div className="flex flex-wrap gap-2">
                       {softwareTools.programming.map((tool) => (
-                        <Badge key={tool} variant="secondary" className="text-sm px-4 py-2">
+                        <Badge key={tool} variant="secondary" className="text-sm px-4 py-2 hover:bg-primary/20 hover:text-primary hover:border-primary/50 transition-all duration-200 cursor-default">
                           <Lightning className="w-4 h-4 mr-2" />
                           {tool}
                         </Badge>
@@ -563,7 +563,7 @@ function App() {
                   <TabsContent value="automation" className="mt-6">
                     <div className="flex flex-wrap gap-2">
                       {softwareTools.automation.map((tool) => (
-                        <Badge key={tool} variant="secondary" className="text-sm px-4 py-2">
+                        <Badge key={tool} variant="secondary" className="text-sm px-4 py-2 hover:bg-primary/20 hover:text-primary hover:border-primary/50 transition-all duration-200 cursor-default">
                           <Robot className="w-4 h-4 mr-2" />
                           {tool}
                         </Badge>
@@ -573,7 +573,7 @@ function App() {
                   <TabsContent value="engineering" className="mt-6">
                     <div className="flex flex-wrap gap-2">
                       {softwareTools.engineering.map((tool) => (
-                        <Badge key={tool} variant="secondary" className="text-sm px-4 py-2">
+                        <Badge key={tool} variant="secondary" className="text-sm px-4 py-2 hover:bg-primary/20 hover:text-primary hover:border-primary/50 transition-all duration-200 cursor-default">
                           <Cube className="w-4 h-4 mr-2" />
                           {tool}
                         </Badge>
@@ -741,7 +741,7 @@ function App() {
                     </div>
                     <Button 
                       type="submit" 
-                      className="w-full gap-2"
+                      className="w-full gap-2 hover:shadow-lg transition-shadow duration-200"
                       disabled={isSubmitting}
                     >
                       {isSubmitting ? (
@@ -775,20 +775,20 @@ function App() {
                 <CardContent className="space-y-4">
                   <a 
                     href="mailto:info@syltekengineering.com"
-                    className="flex items-center gap-4 p-4 bg-background/50 rounded-lg hover:bg-background/80 transition-colors group"
+                    className="flex items-center gap-4 p-4 bg-background/50 rounded-lg hover:bg-primary/10 hover:border-primary/30 border border-transparent transition-all duration-200 group"
                   >
-                    <div className="p-3 bg-accent/20 rounded-lg group-hover:bg-accent/30 transition-colors">
-                      <Envelope className="w-6 h-6 text-accent" />
+                    <div className="p-3 bg-accent/20 rounded-lg group-hover:bg-accent/40 group-hover:scale-110 transition-all duration-200">
+                      <Envelope className="w-6 h-6 text-accent group-hover:text-primary transition-colors duration-200" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground mb-1">Email</p>
-                      <p className="text-lg font-medium text-foreground group-hover:text-primary transition-colors">
+                      <p className="text-sm text-muted-foreground mb-1 group-hover:text-primary/70 transition-colors duration-200">Email</p>
+                      <p className="text-lg font-medium text-foreground group-hover:text-primary transition-colors duration-200">
                         info@syltekengineering.com
                       </p>
                     </div>
                   </a>
 
-                  <div className="flex items-center gap-4 p-4 bg-background/50 rounded-lg">
+                  <div className="flex items-center gap-4 p-4 bg-background/50 rounded-lg border border-transparent">
                     <div className="p-3 bg-primary/20 rounded-lg">
                       <Phone className="w-6 h-6 text-primary" />
                     </div>
@@ -857,20 +857,76 @@ function App() {
             <div>
               <h4 className="font-semibold mb-4">Services</h4>
               <ul className="space-y-2 text-sm text-secondary-foreground/80">
-                <li>Mechanical Design</li>
-                <li>Automation & Robotics</li>
-                <li>Prototype Development</li>
-                <li>Consultation Services</li>
+                <li>
+                  <button 
+                    onClick={() => navigateToView('mechanical-design')}
+                    className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block"
+                  >
+                    Mechanical Design
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => navigateToView('automation-robotics')}
+                    className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block"
+                  >
+                    Automation & Robotics
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => navigateToView('prototype-development')}
+                    className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block"
+                  >
+                    Prototype Development
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => navigateToView('consultation')}
+                    className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block"
+                  >
+                    Consultation Services
+                  </button>
+                </li>
               </ul>
             </div>
 
             <div>
               <h4 className="font-semibold mb-4">Capabilities</h4>
               <ul className="space-y-2 text-sm text-secondary-foreground/80">
-                <li>3D CAD & SolidWorks</li>
-                <li>CNC Machining</li>
-                <li>3D Printing</li>
-                <li>Manufacturing Processes</li>
+                <li>
+                  <button 
+                    onClick={() => scrollToSection('capabilities')}
+                    className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block"
+                  >
+                    3D CAD & SolidWorks
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => scrollToSection('capabilities')}
+                    className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block"
+                  >
+                    CNC Machining
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => scrollToSection('capabilities')}
+                    className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block"
+                  >
+                    3D Printing
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => scrollToSection('capabilities')}
+                    className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block"
+                  >
+                    Manufacturing Processes
+                  </button>
+                </li>
               </ul>
             </div>
           </div>

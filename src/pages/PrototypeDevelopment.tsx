@@ -64,7 +64,7 @@ export function PrototypeDevelopment({ onNavigate }: PrototypeDevelopmentProps) 
         <Button
           variant="ghost"
           onClick={() => onNavigate('home')}
-          className="mb-8 gap-2"
+          className="mb-8 gap-2 hover:bg-primary/10 hover:text-primary transition-all duration-200"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Home
@@ -97,13 +97,13 @@ export function PrototypeDevelopment({ onNavigate }: PrototypeDevelopmentProps) 
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                <Card className="h-full hover:shadow-lg hover:border-accent/50 transition-all duration-300">
+                <Card className="h-full hover:shadow-xl hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 group">
                   <CardHeader>
                     <div className="flex items-center gap-3 mb-2">
-                      <div className="text-accent">
+                      <div className="text-accent group-hover:text-primary group-hover:scale-110 transition-all duration-300">
                         {process.icon}
                       </div>
-                      <CardTitle className="text-xl">{process.title}</CardTitle>
+                      <CardTitle className="text-xl group-hover:text-primary transition-colors duration-300">{process.title}</CardTitle>
                     </div>
                     <CardDescription>{process.description}</CardDescription>
                   </CardHeader>
@@ -111,7 +111,7 @@ export function PrototypeDevelopment({ onNavigate }: PrototypeDevelopmentProps) 
                     <div className="space-y-2">
                       {process.capabilities.map((cap) => (
                         <div key={cap} className="flex items-center gap-2">
-                          <CheckCircle className="w-4 h-4 text-accent flex-shrink-0" weight="fill" />
+                          <CheckCircle className="w-4 h-4 text-accent flex-shrink-0 group-hover:text-primary transition-colors duration-300" weight="fill" />
                           <p className="text-sm text-foreground/80">{cap}</p>
                         </div>
                       ))}
@@ -133,7 +133,7 @@ export function PrototypeDevelopment({ onNavigate }: PrototypeDevelopmentProps) 
               <CardContent>
                 <div className="flex flex-wrap gap-2">
                   {materials.map((material) => (
-                    <Badge key={material} variant="secondary" className="text-sm px-3 py-1.5">
+                    <Badge key={material} variant="secondary" className="text-sm px-3 py-1.5 hover:bg-primary/20 hover:text-primary hover:border-primary/50 transition-all duration-200 cursor-default">
                       {material}
                     </Badge>
                   ))}

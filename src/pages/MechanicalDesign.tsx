@@ -42,7 +42,7 @@ export function MechanicalDesign({ onNavigate }: MechanicalDesignProps) {
         <Button
           variant="ghost"
           onClick={() => onNavigate('home')}
-          className="mb-8 gap-2"
+          className="mb-8 gap-2 hover:bg-primary/10 hover:text-primary transition-all duration-200"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Home
@@ -83,9 +83,9 @@ export function MechanicalDesign({ onNavigate }: MechanicalDesignProps) {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: index * 0.1 }}
-                      className="flex gap-3 p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors"
+                      className="flex gap-3 p-4 bg-muted/30 rounded-lg hover:bg-primary/10 hover:border-primary/30 border border-transparent transition-all duration-200 group"
                     >
-                      <div className="text-accent mt-1">
+                      <div className="text-accent mt-1 group-hover:text-primary group-hover:scale-110 transition-all duration-200">
                         {item.icon}
                       </div>
                       <div>

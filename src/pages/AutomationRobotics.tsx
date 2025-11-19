@@ -69,7 +69,7 @@ export function AutomationRobotics({ onNavigate }: AutomationRoboticsProps) {
         <Button
           variant="ghost"
           onClick={() => onNavigate('home')}
-          className="mb-8 gap-2"
+          className="mb-8 gap-2 hover:bg-primary/10 hover:text-primary transition-all duration-200"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Home
@@ -102,12 +102,12 @@ export function AutomationRobotics({ onNavigate }: AutomationRoboticsProps) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                <Card className="h-full hover:shadow-lg hover:border-accent/50 transition-all duration-300">
+                <Card className="h-full hover:shadow-xl hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 group">
                   <CardHeader>
-                    <div className="text-accent mb-3">
+                    <div className="text-accent mb-3 group-hover:text-primary group-hover:scale-110 transition-all duration-300">
                       {solution.icon}
                     </div>
-                    <CardTitle className="text-lg">{solution.title}</CardTitle>
+                    <CardTitle className="text-lg group-hover:text-primary transition-colors duration-300">{solution.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <CardDescription>{solution.description}</CardDescription>
@@ -153,7 +153,7 @@ export function AutomationRobotics({ onNavigate }: AutomationRoboticsProps) {
               <CardContent>
                 <div className="flex flex-wrap gap-2">
                   {technologies.map((tech) => (
-                    <Badge key={tech} variant="secondary" className="text-sm px-3 py-1.5">
+                    <Badge key={tech} variant="secondary" className="text-sm px-3 py-1.5 hover:bg-primary/20 hover:text-primary hover:border-primary/50 transition-all duration-200 cursor-default">
                       {tech}
                     </Badge>
                   ))}
