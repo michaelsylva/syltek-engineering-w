@@ -12,6 +12,10 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/ui/tabs'
 import { Sheet, SheetContent, SheetTrigger } from './components/ui/sheet'
 import { Separator } from './components/ui/separator'
+import { Input } from './components/ui/input'
+import { Textarea } from './components/ui/textarea'
+import { Label } from './components/ui/label'
+import { toast } from 'sonner'
 import {
   Cube,
   Gear,
@@ -29,7 +33,8 @@ import {
   GitBranch,
   Cpu,
   Package,
-  CaretDown
+  CaretDown,
+  PaperPlaneRight
 } from '@phosphor-icons/react'
 
 type View = 'home' | 'mechanical-design' | 'automation-robotics' | 'prototype-development' | 'consultation' | 'contact'
@@ -40,6 +45,13 @@ function App() {
   const [currentView, setCurrentView] = useState<View>('home')
   const [navServicesOpen, setNavServicesOpen] = useState(false)
   const [heroServicesOpen, setHeroServicesOpen] = useState(false)
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    company: '',
+    message: ''
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -68,6 +80,39 @@ function App() {
     setNavServicesOpen(false)
     setHeroServicesOpen(false)
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+
+    try {
+      const response = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+
+      if (response.ok) {
+        toast.success('Message sent successfully! We\'ll get back to you soon.')
+        setFormData({ name: '', email: '', company: '', message: '' })
+      } else {
+        toast.error('Failed to send message. Please try emailing us directly.')
+      }
+    } catch (error) {
+      toast.error('Failed to send message. Please try emailing us directly.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const servicePages = [
@@ -249,9 +294,9 @@ function App() {
                         <button
                           key={service.id}
                           onClick={() => navigateToView(service.id)}
-                          className="w-full flex items-center gap-3 px-4 py-3 text-sm text-foreground/80 hover:bg-accent/10 hover:text-primary transition-colors"
+                          className="w-full flex items-center gap-3 px-4 py-3 text-sm text-foreground/80 hover:bg-accent hover:text-accent-foreground transition-colors"
                         >
-                          <div className="text-accent">{service.icon}</div>
+                          <div className="hover:scale-110 transition-transform">{service.icon}</div>
                           {service.label}
                         </button>
                       ))}
@@ -352,9 +397,9 @@ function App() {
                         <button
                           key={service.id}
                           onClick={() => navigateToView(service.id)}
-                          className="w-full flex items-center gap-3 px-4 py-3 text-sm text-foreground/80 hover:bg-accent/10 hover:text-primary transition-colors"
+                          className="w-full flex items-center gap-3 px-4 py-3 text-sm text-foreground/80 hover:bg-accent hover:text-accent-foreground transition-colors"
                         >
-                          <div className="text-accent">{service.icon}</div>
+                          <div className="hover:scale-110 transition-transform">{service.icon}</div>
                           {service.label}
                         </button>
                       ))}
@@ -619,7 +664,7 @@ function App() {
       </section>
 
       <section id="contact" className="py-20 bg-muted/30">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -633,55 +678,154 @@ function App() {
             </p>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <Card className="bg-gradient-to-br from-primary/5 to-accent/5">
-              <CardContent className="p-8">
-                <div className="space-y-6">
-                  <div className="flex items-center gap-4 p-4 bg-background/50 rounded-lg hover:bg-background/80 transition-colors">
-                    <div className="p-3 bg-accent/20 rounded-lg">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <Card>
+                <CardHeader>
+                  <CardTitle>Send us a message</CardTitle>
+                  <CardDescription>
+                    Fill out the form below and we'll get back to you as soon as possible.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={handleFormSubmit} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="name">Name *</Label>
+                      <Input
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleFormChange}
+                        required
+                        placeholder="John Doe"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email *</Label>
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={handleFormChange}
+                        required
+                        placeholder="john@example.com"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="company">Company</Label>
+                      <Input
+                        id="company"
+                        name="company"
+                        value={formData.company}
+                        onChange={handleFormChange}
+                        placeholder="Your Company Name"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="message">Message *</Label>
+                      <Textarea
+                        id="message"
+                        name="message"
+                        value={formData.message}
+                        onChange={handleFormChange}
+                        required
+                        placeholder="Tell us about your project..."
+                        rows={5}
+                      />
+                    </div>
+                    <Button 
+                      type="submit" 
+                      className="w-full gap-2"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <>Sending...</>
+                      ) : (
+                        <>
+                          <PaperPlaneRight className="w-5 h-5" />
+                          Send Message
+                        </>
+                      )}
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="space-y-6"
+            >
+              <Card className="bg-gradient-to-br from-primary/5 to-accent/5">
+                <CardHeader>
+                  <CardTitle>Contact Information</CardTitle>
+                  <CardDescription>
+                    Prefer to reach out directly? Here's how to contact us.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <a 
+                    href="mailto:info@syltekengineering.com"
+                    className="flex items-center gap-4 p-4 bg-background/50 rounded-lg hover:bg-background/80 transition-colors group"
+                  >
+                    <div className="p-3 bg-accent/20 rounded-lg group-hover:bg-accent/30 transition-colors">
                       <Envelope className="w-6 h-6 text-accent" />
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground mb-1">Email</p>
-                      <a href="mailto:info@syltekengineering.com" className="text-lg font-medium text-foreground hover:text-primary transition-colors">
+                      <p className="text-lg font-medium text-foreground group-hover:text-primary transition-colors">
                         info@syltekengineering.com
-                      </a>
+                      </p>
                     </div>
-                  </div>
+                  </a>
 
-                  <div className="flex items-center gap-4 p-4 bg-background/50 rounded-lg hover:bg-background/80 transition-colors">
+                  <div className="flex items-center gap-4 p-4 bg-background/50 rounded-lg">
                     <div className="p-3 bg-primary/20 rounded-lg">
                       <Phone className="w-6 h-6 text-primary" />
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground mb-1">Phone</p>
-                      <a href="tel:+1234567890" className="text-lg font-medium text-foreground hover:text-primary transition-colors">
+                      <p className="text-lg font-medium text-foreground">
                         Contact for details
-                      </a>
+                      </p>
                     </div>
                   </div>
+                </CardContent>
+              </Card>
 
-                  <Separator />
-
-                  <div className="text-center pt-4">
-                    <p className="text-foreground/80 mb-6 leading-relaxed">
-                      Whether you need precision mechanical design, automation systems, or prototype development,
-                      we're here to help turn your engineering challenges into solutions.
-                    </p>
-                    <Button size="lg" className="gap-2">
-                      <Envelope className="w-5 h-5" />
-                      Send an Inquiry
-                    </Button>
+              <Card className="bg-gradient-to-br from-accent/5 to-primary/5">
+                <CardContent className="pt-6">
+                  <p className="text-foreground/80 mb-4 leading-relaxed">
+                    Whether you need precision mechanical design, automation systems, or prototype development,
+                    we're here to help turn your engineering challenges into solutions.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="secondary" className="gap-1">
+                      <CheckCircle className="w-3 h-3" weight="fill" />
+                      30+ Years Experience
+                    </Badge>
+                    <Badge variant="secondary" className="gap-1">
+                      <CheckCircle className="w-3 h-3" weight="fill" />
+                      Custom Solutions
+                    </Badge>
+                    <Badge variant="secondary" className="gap-1">
+                      <CheckCircle className="w-3 h-3" weight="fill" />
+                      Fast Turnaround
+                    </Badge>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20">
