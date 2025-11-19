@@ -316,93 +316,53 @@ function App() {
 
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden gradient-mesh pt-20">
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-          >
-            <div className="text-left">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4 tracking-tight">
-                Precision Mechanical Engineering
-                <br />
-                <span className="text-primary">& Automation Design</span>
-              </h1>
-              <p className="text-lg sm:text-xl text-foreground/80 mb-6 leading-relaxed">
-                Syltek Engineering delivers high-end mechanical design, automation systems, and biomedical
-                instrumentation solutions. We specialize in turning complex engineering challenges into
-                functional, manufacturable products.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 items-start">
-                <div 
-                  className="relative"
-                  onMouseEnter={() => setHeroServicesOpen(true)}
-                  onMouseLeave={() => setHeroServicesOpen(false)}
-                >
-                  <Button 
-                    size="lg" 
-                    className="gap-2"
-                  >
-                    Explore Services <CaretDown className={`w-5 h-5 transition-transform ${heroServicesOpen ? 'rotate-180' : ''}`} />
-                  </Button>
-                  {heroServicesOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="absolute top-full left-0 mt-2 w-64 bg-background border border-border rounded-lg shadow-lg overflow-hidden z-50"
-                    >
-                      {servicePages.map((service) => (
-                        <button
-                          key={service.id}
-                          onClick={() => navigateToView(service.id)}
-                          className="w-full flex items-center gap-3 px-4 py-3 text-sm text-foreground/80 hover:bg-accent/10 hover:text-primary transition-colors"
-                        >
-                          <div className="text-accent">{service.icon}</div>
-                          {service.label}
-                        </button>
-                      ))}
-                    </motion.div>
-                  )}
-                </div>
-                <Button size="lg" variant="outline" onClick={() => scrollToSection('contact')}>
-                  Contact Us
-                </Button>
-              </div>
-            </div>
-            
-            <div className="w-full h-[500px] flex items-center justify-center">
-              <motion.div
-                className="relative w-full max-w-md h-full flex items-center justify-center"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8 }}
+          <div className="text-center max-w-4xl mx-auto">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6 tracking-tight">
+              Precision Mechanical Engineering
+              <br />
+              <span className="text-primary">& Automation Design</span>
+            </h1>
+            <p className="text-lg sm:text-xl text-foreground/80 mb-8 leading-relaxed">
+              Syltek Engineering delivers high-end mechanical design, automation systems, and biomedical
+              instrumentation solutions. We specialize in turning complex engineering challenges into
+              functional, manufacturable products.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+              <div 
+                className="relative"
+                onMouseEnter={() => setHeroServicesOpen(true)}
+                onMouseLeave={() => setHeroServicesOpen(false)}
               >
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                  className="absolute"
+                <Button 
+                  size="lg" 
+                  className="gap-2"
                 >
-                  <Gear className="w-48 h-48 text-primary/30" weight="fill" />
-                </motion.div>
-                <motion.div
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-                  className="absolute"
-                  style={{ transform: 'translateX(80px) translateY(-80px)' }}
-                >
-                  <Gear className="w-32 h-32 text-accent/40" weight="fill" />
-                </motion.div>
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                  className="absolute"
-                  style={{ transform: 'translateX(-90px) translateY(70px)' }}
-                >
-                  <Gear className="w-40 h-40 text-secondary/30" weight="fill" />
-                </motion.div>
-              </motion.div>
+                  Explore Services <CaretDown className={`w-5 h-5 transition-transform ${heroServicesOpen ? 'rotate-180' : ''}`} />
+                </Button>
+                {heroServicesOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="absolute top-full left-0 mt-2 w-64 bg-background border border-border rounded-lg shadow-lg overflow-hidden z-50"
+                  >
+                    {servicePages.map((service) => (
+                      <button
+                        key={service.id}
+                        onClick={() => navigateToView(service.id)}
+                        className="w-full flex items-center gap-3 px-4 py-3 text-sm text-foreground/80 hover:bg-accent/10 hover:text-primary transition-colors"
+                      >
+                        <div className="text-accent">{service.icon}</div>
+                        {service.label}
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </div>
+              <Button size="lg" variant="outline" onClick={() => scrollToSection('contact')}>
+                Contact Us
+              </Button>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
