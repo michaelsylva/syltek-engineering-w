@@ -242,18 +242,20 @@ function App() {
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="absolute top-full left-0 mt-2 w-64 bg-background border border-border rounded-lg shadow-lg overflow-hidden z-50"
+                    className="absolute top-full left-0 pt-2 z-50"
                   >
-                    {servicePages.map((service) => (
-                      <button
-                        key={service.id}
-                        onClick={() => navigateToView(service.id)}
-                        className="w-full flex items-center gap-3 px-4 py-3 text-sm text-foreground/80 hover:bg-accent/10 hover:text-primary transition-colors"
-                      >
-                        <div className="text-accent">{service.icon}</div>
-                        {service.label}
-                      </button>
-                    ))}
+                    <div className="w-64 bg-background border border-border rounded-lg shadow-lg overflow-hidden">
+                      {servicePages.map((service) => (
+                        <button
+                          key={service.id}
+                          onClick={() => navigateToView(service.id)}
+                          className="w-full flex items-center gap-3 px-4 py-3 text-sm text-foreground/80 hover:bg-accent/10 hover:text-primary transition-colors"
+                        >
+                          <div className="text-accent">{service.icon}</div>
+                          {service.label}
+                        </button>
+                      ))}
+                    </div>
                   </motion.div>
                 )}
               </div>
@@ -343,18 +345,20 @@ function App() {
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="absolute top-full left-0 mt-2 w-64 bg-background border border-border rounded-lg shadow-lg overflow-hidden z-50"
+                    className="absolute top-full left-0 pt-2 z-50"
                   >
-                    {servicePages.map((service) => (
-                      <button
-                        key={service.id}
-                        onClick={() => navigateToView(service.id)}
-                        className="w-full flex items-center gap-3 px-4 py-3 text-sm text-foreground/80 hover:bg-accent/10 hover:text-primary transition-colors"
-                      >
-                        <div className="text-accent">{service.icon}</div>
-                        {service.label}
-                      </button>
-                    ))}
+                    <div className="w-64 bg-background border border-border rounded-lg shadow-lg overflow-hidden">
+                      {servicePages.map((service) => (
+                        <button
+                          key={service.id}
+                          onClick={() => navigateToView(service.id)}
+                          className="w-full flex items-center gap-3 px-4 py-3 text-sm text-foreground/80 hover:bg-accent/10 hover:text-primary transition-colors"
+                        >
+                          <div className="text-accent">{service.icon}</div>
+                          {service.label}
+                        </button>
+                      ))}
+                    </div>
                   </motion.div>
                 )}
               </div>
