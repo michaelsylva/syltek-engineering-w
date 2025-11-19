@@ -1,4 +1,6 @@
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { Header } from '@/components/Header'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -9,6 +11,15 @@ interface ConsultationServicesProps {
 }
 
 export function ConsultationServices({ onNavigate }: ConsultationServicesProps) {
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
   const services = [
     {
       title: 'Design Reviews',
@@ -60,7 +71,8 @@ export function ConsultationServices({ onNavigate }: ConsultationServicesProps) 
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <Header scrolled={scrolled} onNavigate={onNavigate} />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24">
         <Button
           variant="ghost"
           onClick={() => onNavigate('home')}

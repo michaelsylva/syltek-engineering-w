@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { MechanicalAssembly3D } from './components/MechanicalAssembly3D'
+import { Header } from './components/Header'
 import { MechanicalDesign } from './pages/MechanicalDesign'
 import { AutomationRobotics } from './pages/AutomationRobotics'
 import { PrototypeDevelopment } from './pages/PrototypeDevelopment'
@@ -10,7 +11,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './com
 import { Badge } from './components/ui/badge'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './components/ui/accordion'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/ui/tabs'
-import { Sheet, SheetContent, SheetTrigger } from './components/ui/sheet'
 import { Separator } from './components/ui/separator'
 import { Input } from './components/ui/input'
 import { Textarea } from './components/ui/textarea'
@@ -27,7 +27,6 @@ import {
   Lightning,
   Phone,
   Envelope,
-  List,
   ArrowRight,
   CheckCircle,
   GitBranch,
@@ -41,9 +40,7 @@ type View = 'home' | 'mechanical-design' | 'automation-robotics' | 'prototype-de
 
 function App() {
   const [scrolled, setScrolled] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [currentView, setCurrentView] = useState<View>('home')
-  const [navServicesOpen, setNavServicesOpen] = useState(false)
   const [heroServicesOpen, setHeroServicesOpen] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
@@ -63,8 +60,6 @@ function App() {
 
   const scrollToSection = (id: string) => {
     setCurrentView('home')
-    setMobileMenuOpen(false)
-    setNavServicesOpen(false)
     setHeroServicesOpen(false)
     setTimeout(() => {
       const element = document.getElementById(id)
@@ -76,8 +71,6 @@ function App() {
 
   const navigateToView = (view: View) => {
     setCurrentView(view)
-    setMobileMenuOpen(false)
-    setNavServicesOpen(false)
     setHeroServicesOpen(false)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -257,109 +250,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-background scroll-smooth">
-      <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled ? 'bg-background/95 backdrop-blur-md shadow-md' : 'bg-transparent'
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <button 
-              onClick={() => navigateToView('home')}
-              className="flex items-center gap-2 hover:opacity-80 transition-all duration-200 group"
-            >
-              <Gear className="w-8 h-8 text-primary group-hover:rotate-45 transition-transform duration-300" weight="fill" />
-              <span className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-200">Syltek Engineering</span>
-            </button>
-
-            <div className="hidden md:flex items-center gap-6">
-              <div 
-                className="relative"
-                onMouseEnter={() => setNavServicesOpen(true)}
-                onMouseLeave={() => setNavServicesOpen(false)}
-              >
-                <button
-                  className="flex items-center gap-1 text-sm font-medium text-foreground/80 hover:text-primary transition-colors duration-200"
-                >
-                  Services <CaretDown className={`w-4 h-4 transition-transform duration-200 ${navServicesOpen ? 'rotate-180' : ''}`} />
-                </button>
-                {navServicesOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="absolute top-full left-0 pt-2 z-50"
-                  >
-                    <div className="w-64 bg-background border border-border rounded-lg shadow-lg overflow-hidden">
-                      {servicePages.map((service) => (
-                        <button
-                          key={service.id}
-                          onClick={() => navigateToView(service.id)}
-                          className="w-full flex items-center gap-3 px-4 py-3 text-sm text-foreground/80 hover:bg-primary/10 hover:text-primary transition-all duration-200"
-                        >
-                          <div className="text-accent hover:scale-110 transition-transform duration-200">{service.icon}</div>
-                          {service.label}
-                        </button>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </div>
-              {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={item.action}
-                  className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors duration-200"
-                >
-                  {item.label}
-                </button>
-              ))}
-              <Button onClick={() => scrollToSection('contact')} size="sm" className="hover:shadow-lg transition-shadow duration-200">
-                Get in Touch
-              </Button>
-            </div>
-
-            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-              <SheetTrigger asChild className="md:hidden">
-                <Button variant="ghost" size="icon">
-                  <List className="w-6 h-6" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent>
-                <div className="flex flex-col gap-6 mt-8">
-                  <div>
-                    <p className="text-xs font-semibold text-muted-foreground mb-3 uppercase tracking-wide">Services</p>
-                    <div className="flex flex-col gap-2">
-                      {servicePages.map((service) => (
-                        <button
-                          key={service.id}
-                          onClick={() => navigateToView(service.id)}
-                          className="flex items-center gap-3 text-left text-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200 py-2 px-2 rounded-md"
-                        >
-                          <div className="text-accent hover:scale-110 transition-transform duration-200">{service.icon}</div>
-                          <span className="font-medium">{service.label}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  <Separator />
-                  {navItems.map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={item.action}
-                      className="text-lg font-medium text-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200 text-left py-2 px-2 rounded-md"
-                    >
-                      {item.label}
-                    </button>
-                  ))}
-                  <Button onClick={() => scrollToSection('contact')} className="w-full hover:shadow-lg transition-shadow duration-200">
-                    Get in Touch
-                  </Button>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
-      </nav>
+      <Header scrolled={scrolled} onNavigate={navigateToView} onScrollToSection={scrollToSection} />
 
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden gradient-mesh pt-20">
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -397,10 +288,10 @@ function App() {
                         <button
                           key={service.id}
                           onClick={() => navigateToView(service.id)}
-                          className="w-full flex items-center gap-3 px-4 py-3 text-sm text-foreground/80 hover:bg-primary/10 hover:text-primary transition-all duration-200"
+                          className="w-full flex items-center gap-3 px-4 py-3 text-sm text-foreground/80 hover:bg-accent/20 hover:text-primary transition-all duration-200 group"
                         >
-                          <div className="text-accent hover:scale-110 transition-transform duration-200">{service.icon}</div>
-                          {service.label}
+                          <div className="text-accent group-hover:text-primary group-hover:scale-110 transition-all duration-200">{service.icon}</div>
+                          <span className="group-hover:translate-x-0.5 transition-transform duration-200">{service.label}</span>
                         </button>
                       ))}
                     </div>
@@ -860,7 +751,7 @@ function App() {
                 <li>
                   <button 
                     onClick={() => navigateToView('mechanical-design')}
-                    className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block"
+                    className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block cursor-pointer"
                   >
                     Mechanical Design
                   </button>
@@ -868,7 +759,7 @@ function App() {
                 <li>
                   <button 
                     onClick={() => navigateToView('automation-robotics')}
-                    className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block"
+                    className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block cursor-pointer"
                   >
                     Automation & Robotics
                   </button>
@@ -876,7 +767,7 @@ function App() {
                 <li>
                   <button 
                     onClick={() => navigateToView('prototype-development')}
-                    className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block"
+                    className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block cursor-pointer"
                   >
                     Prototype Development
                   </button>
@@ -884,7 +775,7 @@ function App() {
                 <li>
                   <button 
                     onClick={() => navigateToView('consultation')}
-                    className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block"
+                    className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block cursor-pointer"
                   >
                     Consultation Services
                   </button>
@@ -898,7 +789,7 @@ function App() {
                 <li>
                   <button 
                     onClick={() => scrollToSection('capabilities')}
-                    className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block"
+                    className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block cursor-pointer"
                   >
                     3D CAD & SolidWorks
                   </button>
@@ -906,7 +797,7 @@ function App() {
                 <li>
                   <button 
                     onClick={() => scrollToSection('capabilities')}
-                    className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block"
+                    className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block cursor-pointer"
                   >
                     CNC Machining
                   </button>
@@ -914,7 +805,7 @@ function App() {
                 <li>
                   <button 
                     onClick={() => scrollToSection('capabilities')}
-                    className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block"
+                    className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block cursor-pointer"
                   >
                     3D Printing
                   </button>
@@ -922,7 +813,7 @@ function App() {
                 <li>
                   <button 
                     onClick={() => scrollToSection('capabilities')}
-                    className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block"
+                    className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block cursor-pointer"
                   >
                     Manufacturing Processes
                   </button>
