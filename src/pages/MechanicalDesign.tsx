@@ -8,9 +8,10 @@ import { Cube, ArrowLeft, CheckCircle, Gear, Ruler, Package } from '@phosphor-ic
 
 interface MechanicalDesignProps {
   onNavigate: (view: string) => void
+  currentView?: string
 }
 
-export function MechanicalDesign({ onNavigate }: MechanicalDesignProps) {
+export function MechanicalDesign({ onNavigate, currentView = 'mechanical-design' }: MechanicalDesignProps) {
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
@@ -49,7 +50,7 @@ export function MechanicalDesign({ onNavigate }: MechanicalDesignProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header scrolled={scrolled} onNavigate={onNavigate} />
+      <Header scrolled={scrolled} onNavigate={onNavigate} currentView={currentView as any} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24">
         <Button
           variant="ghost"

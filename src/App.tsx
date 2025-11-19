@@ -233,24 +233,24 @@ function App() {
   ]
 
   if (currentView === 'mechanical-design') {
-    return <MechanicalDesign onNavigate={navigateToView} />
+    return <MechanicalDesign onNavigate={navigateToView} currentView={currentView} />
   }
 
   if (currentView === 'automation-robotics') {
-    return <AutomationRobotics onNavigate={navigateToView} />
+    return <AutomationRobotics onNavigate={navigateToView} currentView={currentView} />
   }
 
   if (currentView === 'prototype-development') {
-    return <PrototypeDevelopment onNavigate={navigateToView} />
+    return <PrototypeDevelopment onNavigate={navigateToView} currentView={currentView} />
   }
 
   if (currentView === 'consultation') {
-    return <ConsultationServices onNavigate={navigateToView} />
+    return <ConsultationServices onNavigate={navigateToView} currentView={currentView} />
   }
 
   return (
     <div className="min-h-screen bg-background scroll-smooth">
-      <Header scrolled={scrolled} onNavigate={navigateToView} onScrollToSection={scrollToSection} />
+      <Header scrolled={scrolled} onNavigate={navigateToView} onScrollToSection={scrollToSection} currentView={currentView} />
 
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden gradient-mesh pt-20">
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

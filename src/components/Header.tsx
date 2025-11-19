@@ -11,9 +11,10 @@ interface HeaderProps {
   scrolled: boolean
   onNavigate: (view: View) => void
   onScrollToSection?: (id: string) => void
+  currentView?: View
 }
 
-export function Header({ scrolled, onNavigate, onScrollToSection }: HeaderProps) {
+export function Header({ scrolled, onNavigate, onScrollToSection, currentView = 'home' }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [navServicesOpen, setNavServicesOpen] = useState(false)
 
@@ -27,7 +28,16 @@ export function Header({ scrolled, onNavigate, onScrollToSection }: HeaderProps)
   const handleScrollToSection = (id: string) => {
     setMobileMenuOpen(false)
     setNavServicesOpen(false)
-    if (onScrollToSection) {
+    
+    if (currentView !== 'home') {
+      onNavigate('home')
+      setTimeout(() => {
+        const element = document.getElementById(id)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' })
+        }
+      }, 100)
+    } else if (onScrollToSection) {
       onScrollToSection(id)
     }
   }

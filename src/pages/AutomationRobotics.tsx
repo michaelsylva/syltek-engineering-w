@@ -8,9 +8,10 @@ import { Robot, ArrowLeft, CheckCircle, Cpu, GitBranch, Flask } from '@phosphor-
 
 interface AutomationRoboticsProps {
   onNavigate: (view: string) => void
+  currentView?: string
 }
 
-export function AutomationRobotics({ onNavigate }: AutomationRoboticsProps) {
+export function AutomationRobotics({ onNavigate, currentView = 'automation-robotics' }: AutomationRoboticsProps) {
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
@@ -76,7 +77,7 @@ export function AutomationRobotics({ onNavigate }: AutomationRoboticsProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header scrolled={scrolled} onNavigate={onNavigate} />
+      <Header scrolled={scrolled} onNavigate={onNavigate} currentView={currentView as any} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24">
         <Button
           variant="ghost"
